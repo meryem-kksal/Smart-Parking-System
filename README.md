@@ -1,13 +1,40 @@
-# Smart Parking Tariff and Gate Control System (Moore FSM)
+# 🚗 Smart Parking Tariff and Gate Control System
 
-A parking system for cars that are being charged for how many hours they stayed in autopark. Done with moore circuit system
+![Hardware](https://img.shields.io/badge/Hardware-Proteus-blue)
+![Language](https://img.shields.io/badge/Language-Verilog_HDL-green)
+![Logic](https://img.shields.io/badge/Logic-Moore_FSM-orange)
 
-Technologies & Tools: Verilog HDL, Proteus Design Suite, Boolean Algebra, Digital Logic Design.
+## 📌 Project Overview
+This project involves the design and implementation of a synchronous **Moore Finite State Machine (FSM)** for an automated parking system. The system tracks the duration of a parked vehicle, calculates increasing tariff levels based on time ticks, and automatically triggers the exit gate motor upon successful payment.
 
-Description: Designed and implemented a synchronous Moore finite state machine to control automated parking tariffs and gate mechanics.
+Unlike standard FSM designs, this system incorporates **6 variables** (3 state bits and 3 inputs), making traditional Karnaugh Maps impractical. Therefore, the hardware logic was derived and minimized entirely through **algebraic synthesis (Boolean Algebra)**.
 
-Key Contributions:
+## ⚙️ System Architecture & State Design
+The system transitions between 7 distinct states (S0 to S6) representing an empty lot, various tariff levels, and the gate opening sequence. 
 
-Mathematically derived and algebraically minimized 6-variable state equations without relying on basic K-Map methods.
-Developed the hardware architecture using D-Type Flip-Flops and standard logic gates in Proteus.
-Wrote the behavioral model in Verilog and verified state transitions via waveform simulation (EDA Playground) to ensure zero-defect hardware logic.
+*   **Inputs:** `X` (Car Sensor), `P` (Payment Confirmation), `T` (Time Tick)
+*   **Outputs:** `M` (Gate Motor)
+*   **Memory Elements:** 3x D-Type Flip-Flops (Q2, Q1, Q0)
+
+*(My hand-drawn state diagram visualizing the tariff increments and payment transitions)*
+<br>
+![State Diagram](images/moore.jpeg)
+
+## 🛠️ Hardware Implementation (Proteus)
+The algebraically minimized Boolean equations were implemented at the gate level using **7474 D-Type Flip-Flops** and basic logic gates (AND, OR, NOT) in the Proteus Design Suite. A custom state decoder was built to optimize the combinational logic routing and prevent wire clutter.
+
+*(Hardware simulation showing successful logic routing and state transitions)*
+<br>
+![Proteus Schematic](images/s6.jpeg)
+
+## 💻 Verilog HDL & Behavioral Simulation
+To ensure absolute zero-defect logic before physical implementation, the Moore FSM was modeled using a behavioral Verilog HDL structure. A comprehensive testbench was designed to simulate worst-case scenarios, including max-tariff holding and asynchronous car departures.
+
+*(Waveform analysis demonstrating synchronized state progression and motor activation only at state S6)*
+<br>
+![EPWave Simulation](images/eda1.jpeg)
+
+## 📂 Project Structure
+*   `/src`: Contains the Verilog source code (`parking_system.v`) and Testbench (`tb_parking_systtem.v`).
+*   `/docs`: Includes the detailed academic experiment report defining learning outputs and procedure.
+*   `/images`: Schematic captures, waveform results, and state diagrams.
